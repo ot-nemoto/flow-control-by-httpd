@@ -9,6 +9,10 @@ RUN yum update -y && \
     sed -i -e "s/remote_addr/client_addr/g" mod_bw.c && \
     apxs -i -a -c mod_bw.c
 
+RUN htpasswd -bc /etc/httpd/htpasswd admin password && \
+    chown apache:apache /etc/httpd/htpasswd && \
+    chmod 600 /etc/httpd/htpasswd
+
 COPY html/ /var/www/html/
 COPY conf/ /etc/httpd/conf.d/
 
